@@ -53,5 +53,15 @@ namespace AdventOfCode23.Tests
             // Assert
             Assert.AreEqual(35, result);
         }
+
+        [TestMethod]
+        public void GetClosestLocationIdFromSeedRange_StandardInput_ReturnCorrectValue()
+        {
+            // Act
+            var result = _solution.GetClosestLocationIdFromSeedRange();
+
+            // Assert
+            Assert.AreEqual(46, result);
+        }
     }
 }

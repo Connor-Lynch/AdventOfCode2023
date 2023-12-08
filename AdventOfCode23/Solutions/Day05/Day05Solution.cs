@@ -8,6 +8,7 @@ namespace AdventOfCode23.Solutions.Day05
         private IFileReader _fileReader;
         private List<long> _seeds = new List<long>();
         private List<Map> _maps = new List<Map>();
+        private List<RawRange> _seedRanges = new List<RawRange>();
 
         public Day05Solution(IFileReader fileReader)
         {
@@ -40,6 +41,7 @@ namespace AdventOfCode23.Solutions.Day05
         public long? GetClosestLocationIdFromSeedRange()
         {
             long? closestLocation = null;
+
 
             _seeds.ForEach(seed =>
             {
@@ -75,14 +77,19 @@ namespace AdventOfCode23.Solutions.Day05
             return key;
         }
 
+
+
         private void InitData()
         {
             var rawData = _fileReader.ReadFileToStringArray("Solutions/Day05/data.json");
 
-            _seeds = rawData[0].Split(':')[1].Split(' ').Where(n => !string.IsNullOrEmpty(n))
-                .Select(long.Parse)
-                .Order()
-                .ToList();
+            var rawSeeds = rawData[0].Split(':')[1].Split(' ').Where(n => !string.IsNullOrEmpty(n))
+                .Select(long.Parse);
+
+            _seedRanges.AddRange(BuildMapRangeForInputSeeds(rawSeeds.ToList()));
+            _seedRanges = _seedRanges.OrderBy(r => r.Start).ToList();
+
+            _seeds = rawSeeds.Order().ToList();
 
             rawData.RemoveAt(0);
 
@@ -105,6 +112,18 @@ namespace AdventOfCode23.Solutions.Day05
             _maps.Add(workingMap);
         }
 
+        private List<RawRange> BuildMapRangeForInputSeeds(List<long> seeds)
+        {
+            var seedRanges = new List<RawRange>();
+
+            for (var i = 0; i < seeds.Count(); i = i + 2)
+            {
+                seedRanges.Add(new RawRange(seeds[i], seeds[i + 1]));
+            }
+
+            return seedRanges.OrderBy(r => r.Start).ToList();
+        }
+
         private Map CreateBaseMap(string mapKey)
         {
             var keys = mapKey.Replace("map:", "").Trim().Split('-');
@@ -119,6 +138,5 @@ namespace AdventOfCode23.Solutions.Day05
 
             map.InitKeys(keys[0], keys[1], keys[2]);
         }
-
     }
 }
