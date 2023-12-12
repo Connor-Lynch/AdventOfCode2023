@@ -1,4 +1,10 @@
-﻿namespace AdventOfCode23.Solutions.Day07.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdventOfCode23.Solutions.Day07.Models
 {
     public class WildHand
     {
@@ -39,7 +45,7 @@
 
             if (jokers.Any())
                 InitialScore = GetBestScoreForWildHand(groupedCards, jokers.Count);
-            else 
+            else
                 InitialScore = groupedCards.Count switch
                 {
                     1 => 6,
@@ -58,11 +64,12 @@
 
             return groupedCards.Count switch
             {
-                2 => jokerCount == 1 && !groupedCards.Any(c => c.Count == 3) ? 3 : 5,
+                2 => jokerCount == 1 && !groupedCards.Any(c => c.Count == 3) ? 4 : 5,
                 3 => 3,
-                4 => 2,
+                4 => 1,
                 _ => throw new Exception($"Hand length of {groupedCards.Count} is not valid")
             };
+
         }
 
         private void SetEndodedHand()

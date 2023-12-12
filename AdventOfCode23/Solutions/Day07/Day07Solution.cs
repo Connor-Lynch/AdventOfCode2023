@@ -43,7 +43,7 @@ namespace AdventOfCode23.Solutions.Day07
         {
             _wildHands = _wildHands.OrderBy(h => h.InitialScore).ThenByDescending(h => h.Encoded).ToList();
 
-            for (var i = 0; i < _wildHands.Count; i++)
+            for (var i = 0; i < _wildHands.Count; i ++)
             {
                 _wildHands[i].Score = _wildHands[i].Bet * (i + 1);
             }
